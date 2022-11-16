@@ -4,9 +4,39 @@
 
 using namespace wase::ecs;
 
+TEST(WorldTest, CreateEntityID)
+{
+	World world(2);
+
+	Entity entity1 = world.createEntity();
+	Entity entity2 = world.createEntity();
+
+	EXPECT_EQ(entity1.getId(), 0);
+	EXPECT_EQ(entity2.getId(), 1);
+}
+
+TEST(WorldTest, CreateEntityName)
+{
+	World world(1);
+
+	Entity entity = world.createEntity("Test Entity");
+
+	EXPECT_EQ(entity.getId(), 0);
+	EXPECT_EQ(entity.getName(), "Test Entity");
+}
+
+TEST(WorldTest, CreateEntitySameName)
+{
+	World world(2);
+
+	Entity entity1 = world.createEntity("Test Entity");
+
+	EXPECT_ANY_THROW(world.createEntity("Test Entity"));
+}
+
 TEST(WorldTest, EnableEntity)
 {
-	World world;
+	World world(1);
 
 	Entity entity = world.createEntity();
 
@@ -21,7 +51,7 @@ TEST(WorldTest, EnableEntity)
 
 TEST(WorldTest, DisableEntity)
 {
-	World world;
+	World world(1);
 
 	Entity entity = world.createEntity();
 
@@ -32,7 +62,7 @@ TEST(WorldTest, DisableEntity)
 
 TEST(WorldTest, GetEntityByID)
 {
-	World world;
+	World world(1);
 
 	Entity entity = world.createEntity();
 
@@ -41,7 +71,7 @@ TEST(WorldTest, GetEntityByID)
 
 TEST(WorldTest, GetEntityByName)
 {
-	World world;
+	World world(1);
 
 	Entity entity = world.createEntity("Test Entity");
 
@@ -50,7 +80,7 @@ TEST(WorldTest, GetEntityByName)
 
 TEST(WorldTest, GetEntityNameByID)
 {
-	World world;
+	World world(1);
 
 	Entity entity = world.createEntity("Test Entity");
 

@@ -2,6 +2,12 @@
 
 namespace wase::ecs
 {
+	Entity::Entity(const uint32_t id)
+		: m_Id(id)
+	{
+	
+	}
+
 	uint32_t Entity::getId() const
 	{
 		return m_Id;
@@ -27,6 +33,11 @@ namespace wase::ecs
 		throw std::exception("NOT IMPLEMENTED");
 	}
 
+	void Entity::removeAllComponents()
+	{
+		throw std::exception("NOT IMPLEMENTED");
+	}
+
 	Entity::operator uint32_t() const noexcept
 	{
 		throw std::exception("NOT IMPLEMENTED");
@@ -34,6 +45,6 @@ namespace wase::ecs
 
 	bool Entity::operator==(const Entity& other) const
 	{
-		throw std::exception("NOT IMPLEMENTED");
+		return m_Id == other.m_Id;
 	}
 }

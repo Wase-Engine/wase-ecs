@@ -2,9 +2,15 @@
 
 namespace wase::ecs
 {
+	World::World(const uint32_t maxAmountEntities)
+		: m_EntityPool(maxAmountEntities)
+	{
+
+	}
+
 	Entity World::createEntity()
 	{
-		throw std::exception("NOT IMPLEMENTED");
+		return m_EntityPool.createEntity();
 	}
 
 	Entity World::createEntity(const std::string& name)

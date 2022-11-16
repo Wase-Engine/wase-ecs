@@ -9,6 +9,13 @@ namespace wase::ecs
 	{
 	public:
 		/**
+		 * Create a new entity
+		 * 
+		 * @param id: the ID of the entity
+		 */
+		Entity(const uint32_t id);
+
+		/**
 		 * Get the entity id
 		 * 
 		 * @return the entity id
@@ -40,6 +47,41 @@ namespace wase::ecs
 		bool isEnabled() const;
 
 		/**
+		 * Check if the entity has a component
+		 * 
+		 * @return true if the entity has a component
+		 */
+		template <typename T>
+		bool hasComponent() const;
+
+		/**
+		 * Get the component of the entity
+		 *
+		 * @return the component of the entity
+		 */
+		template <typename T>
+		T& getComponent() const;
+
+		/**
+		 * Add a component to the entity
+		 *
+		 * @param component the component to add
+		 */
+		template <typename T>
+		void addComponent();
+
+		/**
+		 * Remove the component of the entity
+		 */
+		template <typename T>
+		void removeComponent();
+
+		/**
+		 * Remove all components of the entity
+		 */
+		void removeAllComponents();
+
+		/**
 		 * Cast the entity to a uint32_t
 		 * 
 		 * @return the entity id
@@ -58,3 +100,5 @@ namespace wase::ecs
 		uint32_t m_Id;
 	};
 }
+
+#include <entity.inl>

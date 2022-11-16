@@ -5,12 +5,20 @@
 
 #include <system.h>
 #include <entity.h>
+#include <entity_pool.h>
 
 namespace wase::ecs
 {
 	class World
 	{
 	public:
+		/**
+		 * Create a new world.
+		 * 
+		 * @param maxAmountEntities: the maximum amount of entities that can be created in this world.
+		 */
+		World(const uint32_t maxAmountEntities);
+
 		/**
 		 * Create an entity
 		 * 
@@ -63,5 +71,8 @@ namespace wase::ecs
 		 * @param entity: the entity to disable
 		 */
 		void disableEntity(const uint32_t id);
+
+	private:
+		EntityPool m_EntityPool;
 	};
 }

@@ -88,12 +88,12 @@ namespace wase::ecs
 		 */
 		void destroyEntity(const Entity id);
 	
-	private:
 		/**
 		 * Get the amount of entities in the pool.
 		 */
 		uint32_t getSize() const;
 
+	private:
 		/**
 		 * Extend the entity pool.
 		 *

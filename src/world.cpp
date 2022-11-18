@@ -7,7 +7,7 @@ namespace wase::ecs
 	{
 
 	}
-
+	
 	Entity World::createEntity()
 	{
 		return m_EntityPool.createEntity();
@@ -15,31 +15,36 @@ namespace wase::ecs
 
 	Entity World::createEntity(const std::string& name)
 	{
-		throw std::exception("NOT IMPLEMENTED");
+		return m_EntityPool.createEntity(name);
 	}
 
-	Entity World::getEntityById(const uint32_t id)
+	std::string World::getEntityName(const uint32_t id) const
 	{
-		throw std::exception("NOT IMPLEMENTED");
+		return m_EntityPool.getEntityName(id);
 	}
 
-	Entity World::getEntityByName(const std::string& name)
+	Entity World::getEntityByName(const std::string& name) const
 	{
-		throw std::exception("NOT IMPLEMENTED");
+		return m_EntityPool.getEntityByName(name);
 	}
 
-	std::string World::getEntityNameById(const uint32_t id)
+	void World::disableEntity(const Entity entity)
 	{
-		throw std::exception("NOT IMPLEMENTED");
+		m_EntityPool.disableEntity(entity);
 	}
 
-	void World::enableEntity(const uint32_t id)
+	void World::enableEntity(const Entity entity)
 	{
-		throw std::exception("NOT IMPLEMENTED");
+		m_EntityPool.enableEntity(entity);
 	}
 
-	void World::disableEntity(const uint32_t id)
+	bool World::isEnabled(const Entity entity) const
 	{
-		throw std::exception("NOT IMPLEMENTED");
+		return m_EntityPool.isEnabled(entity);
+	}
+
+	void World::destroyEntity(const Entity id)
+	{
+		m_EntityPool.destroyEntity(id);
 	}
 }

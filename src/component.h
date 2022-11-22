@@ -2,7 +2,7 @@
 
 namespace wase::ecs
 {
-	class Component
+	struct Component
 	{
 		
 	};

@@ -21,13 +21,13 @@ namespace wase::ecs
 	}
 
 	template<typename T>
-	bool ComponentArray<T>::hasEntity(const Entity entity)
+	bool ComponentArray<T>::hasEntity(const Entity entity) const
 	{
 		return m_Components.find(entity) != m_Components.end();
 	}
 
 	template<typename T>
-	T& ComponentArray<T>::getData(const Entity entity)
+	T& ComponentArray<T>::getData(const Entity entity) const
 	{
 		if (m_Components.find(entity) == m_Components.end())
 			throw std::logic_error("There is no component of this type belonging to the entity.");

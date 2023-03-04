@@ -37,7 +37,7 @@ namespace wase::ecs
 		 * @param entity: the entity
 		 * @return True if the entity has an instance of the component
 		 */
-		bool hasEntity(const Entity entity);
+		bool hasEntity(const Entity entity) const;
 
 		/**
 		 * Get the component data from the array belonging to the entity
@@ -45,7 +45,7 @@ namespace wase::ecs
 		 * @param entity: the 
 		 * @return the component data
 		 */
-		T& getData(const Entity entity);
+		T& getData(const Entity entity) const;
 
 		/**
 		 * Get the size of the array

@@ -41,4 +41,9 @@ namespace wase::ecs
 	{
 		m_EntityPool.destroyEntity(id);
 	}
+
+	uint32_t World::getAmountOfEntities() const
+	{
+		return m_EntityPool.getSize();
+	}
 }

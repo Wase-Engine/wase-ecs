@@ -1,5 +1,7 @@
 #include <entity_pool.h>
 
+#include <stdexcept>
+
 namespace wase::ecs
 {
 	Entity EntityPool::createEntity()
@@ -22,7 +24,7 @@ namespace wase::ecs
 	Entity EntityPool::createEntity(const std::string& name)
 	{
 		if (m_Names.count(name))
-			throw std::exception("Entity name already exists");
+			throw std::logic_error("Entity name already exists");
 
 		Entity entity = createEntity();
 

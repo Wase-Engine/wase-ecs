@@ -2,6 +2,8 @@
 
 #include <component_array.h>
 
+#include <stdexcept>
+
 namespace wase::ecs
 {
 	template<typename T>
@@ -28,7 +30,7 @@ namespace wase::ecs
 	T& ComponentArray<T>::getData(const Entity entity)
 	{
 		if (m_Components.find(entity) == m_Components.end())
-			throw std::exception("There is no component of this type belonging to the entity.");
+			throw std::logic_error("There is no component of this type belonging to the entity.");
 
 		return m_Components[entity];
 	}

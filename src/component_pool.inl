@@ -2,6 +2,8 @@
 
 #include <component_pool.h>
 
+#include <stdexcept>
+
 namespace wase::ecs
 {
 	template<typename T>
@@ -10,7 +12,7 @@ namespace wase::ecs
 		std::string name = typeid(T).name();
 
 		if (m_ComponentArrays.find(name) != m_ComponentArrays.end())
-			throw std::exception("Component is already registered.");
+			throw std::logic_error("Component is already registered.");
 
 		m_ComponentArrays.insert({ name, std::make_shared<ComponentArray<T>>() });
 	}
@@ -45,7 +47,7 @@ namespace wase::ecs
 		std::string name = typeid(T).name();
 
 		if (m_ComponentArrays.find(name) == m_ComponentArrays.end())
-			throw std::exception("Component is not registered.");
+			throw std::logic_error("Component is not registered.");
 
 		return std::static_pointer_cast<ComponentArray<T>>(m_ComponentArrays[name]);
 	}

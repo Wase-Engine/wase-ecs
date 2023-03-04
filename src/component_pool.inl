@@ -5,26 +5,48 @@
 namespace wase::ecs
 {
 	template<typename T>
-	T& ComponentPool::addComponent(Entity entity, std::shared_ptr<T>&& component)
+	void wase::ecs::ComponentPool::registerComponent()
 	{
-		throw std::exception("NOT YET IMPLEMENTED");
+		std::string name = typeid(T).name();
+
+		if (m_ComponentArrays.find(name) != m_ComponentArrays.end())
+			throw std::exception("Component is already registered.");
+
+		m_ComponentArrays.insert({ name, std::make_shared<ComponentArray<T>>() });
+	}
+
+	template<typename T>
+	void ComponentPool::addComponent(Entity entity, T component)
+	{
+		getComponentArray<T>()->insert(entity, component);
 	}
 
 	template<typename T>
 	T& ComponentPool::getComponent(Entity entity)
 	{
-		throw std::exception("NOT YET IMPLEMENTED");
+		return getComponentArray<T>()->getData(entity);
 	}
 
 	template<typename T>
 	bool ComponentPool::hasComponent(Entity entity)
 	{
-		throw std::exception("NOT YET IMPLEMENTED");
+		return getComponentArray<T>()->hasEntity(entity);
 	}
 
 	template<typename T>
 	void ComponentPool::removeComponent(Entity entity)
 	{
-		throw std::exception("NOT YET IMPLEMENTED");
+		getComponentArray<T>()->remove(entity);
+	}
+
+	template<typename T>
+	std::shared_ptr<ComponentArray<T>> ComponentPool::getComponentArray()
+	{
+		std::string name = typeid(T).name();
+
+		if (m_ComponentArrays.find(name) == m_ComponentArrays.end())
+			throw std::exception("Component is not registered.");
+
+		return std::static_pointer_cast<ComponentArray<T>>(m_ComponentArrays[name]);
 	}
 }

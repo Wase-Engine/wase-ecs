@@ -1,11 +1,12 @@
 #pragma once
 
 #include <cstdint>
-#include <array>
 #include <memory>
-#include <vector>
+#include <unordered_map>
+#include <string>
 
 #include <component.h>
+#include <component_array.h>
 
 namespace wase::ecs
 {
@@ -15,6 +16,12 @@ namespace wase::ecs
 	{
 	public:
 		/**
+		 * Registers a component type with the component pool.
+		 */
+		template<typename T>
+		void registerComponent();
+
+		/**
 		 * Add a component to an entity
 		 * 
 		 * @param entity: the entity to add the component to
@@ -22,7 +29,7 @@ namespace wase::ecs
 		 * @return The component
 		 */
 		template<typename T>
-		T& addComponent(Entity entity, std::shared_ptr<T>&& component);
+		void addComponent(Entity entity, T component);
 
 		/**
 		 * Check if an entity has a component
@@ -51,9 +58,16 @@ namespace wase::ecs
 		void removeComponent(Entity entity);
 
 	private:
-		using ComponentArray = std::array<std::shared_ptr<Component>, MAX_COMPONENTS>;
+		std::unordered_map<std::string, std::shared_ptr<IComponentArray>> m_ComponentArrays;
 
-		std::vector<ComponentArray> m_ComponentArrays;
+	private:
+		/**
+		 * Get the component array for a specific component type
+		 * 
+		 * @return The component array
+		 */
+		template<typename T>
+		std::shared_ptr<ComponentArray<T>> getComponentArray();
 	};
 }
 

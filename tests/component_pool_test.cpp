@@ -18,8 +18,8 @@ struct SpriteComponent : public Component
 
 TEST(ComponentPoolTest, AddComponent)
 {
-	World world(1);
-	ComponentPool componentPool(1);
+	World world;
+	ComponentPool componentPool;
 	Entity entity = world.createEntity();
 
 	PositionComponent component = componentPool.addComponent<PositionComponent>(entity, std::make_shared<PositionComponent>());
@@ -28,39 +28,27 @@ TEST(ComponentPoolTest, AddComponent)
 	
 	ASSERT_EQ(component.x, 10.0f);
 	ASSERT_EQ(component.y, 5.0f);
-	ASSERT_EQ(componentPool.size(), 1);
-}
-
-TEST(ComponentPoolTest, TooManyComponents)
-{
-	World world(1);
-	ComponentPool componentPool(1);
-	Entity entity = world.createEntity();
-	
-	componentPool.addComponent<PositionComponent>(entity, std::make_shared<PositionComponent>());
-
-	ASSERT_ANY_THROW(componentPool.addComponent<SpriteComponent>(entity, std::make_shared<SpriteComponent>()));
 }
 
 TEST(ComponentPoolTest, RemoveComponent)
 {
-	World world(1);
-	ComponentPool componentPool(1);
+	World world;
+	ComponentPool componentPool;
 	Entity entity = world.createEntity();
 
 	PositionComponent component = componentPool.addComponent<PositionComponent>(entity, std::make_shared<PositionComponent>());
 
-	ASSERT_EQ(componentPool.size(), 1);
+	ASSERT_TRUE(componentPool.hasComponent<PositionComponent>(entity));
 
 	componentPool.removeComponent<PositionComponent>(entity);
 
-	ASSERT_EQ(componentPool.size(), 0);
+	ASSERT_FALSE(componentPool.hasComponent<PositionComponent>(entity));
 }
 
 TEST(ComponentPoolTest, GetComponent)
 {
-	World world(1);
-	ComponentPool componentPool(1);
+	World world;
+	ComponentPool componentPool;
 	Entity entity = world.createEntity();
 
 	componentPool.addComponent<PositionComponent>(entity, std::make_shared<PositionComponent>());
@@ -71,14 +59,15 @@ TEST(ComponentPoolTest, GetComponent)
 
 	ASSERT_EQ(component.x, 10.0f);
 	ASSERT_EQ(component.y, 5.0f);
-	ASSERT_EQ(componentPool.size(), 1);
 }
 
 TEST(ComponentPoolTest, HasComponent)
 {
-	World world(1);
-	ComponentPool componentPool(1);
+	World world;
+	ComponentPool componentPool;
 	Entity entity = world.createEntity();
+
+	ASSERT_FALSE(componentPool.hasComponent<PositionComponent>(entity));
 
 	componentPool.addComponent<PositionComponent>(entity, std::make_shared<PositionComponent>());
 

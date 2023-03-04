@@ -1,13 +1,7 @@
 #include <world.h>
 
 namespace wase::ecs
-{
-	World::World(const uint32_t maxAmountEntities)
-		: m_EntityPool(maxAmountEntities)
-	{
-
-	}
-	
+{	
 	Entity World::createEntity()
 	{
 		return m_EntityPool.createEntity();

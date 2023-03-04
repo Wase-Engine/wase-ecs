@@ -22,13 +22,6 @@ namespace wase::ecs
 	{
 	public:
 		/**
-		 * Create a new entity pool
-		 * 
-		 * @param capacity: the maximum capacity of the entity pool
-		 */
-		EntityPool(const uint32_t maxAmountOfEntities);
-
-		/**
 		 * Create a new entity.
 		 * 
 		 * @return The new entity.

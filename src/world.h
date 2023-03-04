@@ -12,13 +12,6 @@ namespace wase::ecs
 	{
 	public:
 		/**
-		 * Create a new world.
-		 * 
-		 * @param maxAmountEntities: the maximum amount of entities that can be created in this world.
-		 */
-		World(const uint32_t maxAmountEntities);
-
-		/**
 		 * Create a new entity.
 		 *
 		 * @return The new entity.

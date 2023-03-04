@@ -2,16 +2,10 @@
 
 namespace wase::ecs
 {
-	EntityPool::EntityPool(const uint32_t maxAmountEntities)
-	{
-		for (uint32_t i = 0; i < maxAmountEntities; i++)
-			m_Ids.push(i);
-	}
-
 	Entity EntityPool::createEntity()
 	{
-		if (m_Ids.empty())
-			throw std::exception("Entity pool is full");
+		if (m_Ids.size() <= 0)
+			m_Ids.push(m_NextId++);
 
 		uint32_t id = m_Ids.front();
 		m_Ids.pop();

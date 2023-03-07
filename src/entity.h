@@ -1,17 +1,20 @@
 #pragma once
 
 #include <cstdint>
-#include <optional>
-
-#include <world.h>
 
 namespace wase::ecs
 {
+	class World;
+
 	using Id = uint32_t;
 
 	class Entity
 	{
 	public:
+		Entity() = default;
+
+		Entity(const Id id);
+
 		Id getId() const;
 
 		void enable();
@@ -20,10 +23,25 @@ namespace wase::ecs
 
 		bool isEnabled() const;
 
+		template<typename T>
+		T& getComponent();
+
+		template<typename T, typename... Args>
+		T& addComponent(Args&&... args);
+
+		template<typename T>
+		void removeComponent();
+
+		template<typename T>
+		bool hasComponent();
+		
+
 	private:
 		Id m_ID;
 		bool m_Enabled = true;
-		std::optional<World*> m_World;
+		World* m_World;
+
+		friend class World;
 	};
 }
 

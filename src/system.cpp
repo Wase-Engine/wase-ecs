@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include <system.h>
 
 namespace wase::ecs
@@ -22,19 +24,26 @@ namespace wase::ecs
 
 	void System::removeEntity(Entity* entity)
 	{
-		m_EnabledEntities.erase(std::remove(m_EnabledEntities.begin(), m_EnabledEntities.end(), entity), m_EnabledEntities.end());
-		m_DisabledEntities.erase(std::remove(m_DisabledEntities.begin(), m_DisabledEntities.end(), entity), m_DisabledEntities.end());
+		//m_EnabledEntities.erase(std::remove(m_EnabledEntities.begin(), m_EnabledEntities.end(), entity), m_EnabledEntities.end());
+		//m_DisabledEntities.erase(std::remove(m_DisabledEntities.begin(), m_DisabledEntities.end(), entity), m_DisabledEntities.end());
+		
+		auto newEnd = std::remove_if(m_EnabledEntities.begin(), m_EnabledEntities.end(),
+			[entity](Entity* e) { return e == entity; });
+		
+		m_EnabledEntities.erase(newEnd, m_EnabledEntities.end());
 	}
 
 	void System::enableEntity(Entity* entity)
 	{
-		m_DisabledEntities.erase(std::remove(m_DisabledEntities.begin(), m_DisabledEntities.end(), entity), m_DisabledEntities.end());
+		auto newEnd = std::remove(m_DisabledEntities.begin(), m_DisabledEntities.end(), entity);
+		m_DisabledEntities.erase(newEnd, m_DisabledEntities.end());
 		m_EnabledEntities.push_back(entity);
 	}
 
 	void System::disableEntity(Entity* entity)
 	{
-		m_EnabledEntities.erase(std::remove(m_EnabledEntities.begin(), m_EnabledEntities.end(), entity), m_EnabledEntities.end());
+		auto newEnd = std::remove(m_EnabledEntities.begin(), m_EnabledEntities.end(), entity);
+		m_EnabledEntities.erase(newEnd, m_EnabledEntities.end());
 		m_DisabledEntities.push_back(entity);
 	}
 

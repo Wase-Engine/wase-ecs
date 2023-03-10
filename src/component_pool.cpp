@@ -9,4 +9,13 @@ namespace wase::ecs
 		
 		return m_ComponentMaps[entityId];
 	}
+
+	void ComponentPool::onEntityDestroyed(const Id entityId)
+	{
+		if (entityId >= m_ComponentMaps.size())
+			return;
+
+		m_ComponentMaps[entityId] = ComponentMap();
+		m_Components[entityId] = ComponentArray();
+	}
 }

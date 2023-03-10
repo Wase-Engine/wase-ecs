@@ -60,6 +60,13 @@ namespace wase::ecs
 		 * @return The component map
 		 */
 		ComponentMap getComponentMap(const Id entityId) const;
+
+		/**
+		 * Handles the destruction of an entity
+		 * 
+		 * @param entityId The id of the entity
+		 */
+		void onEntityDestroyed(const Id entityId);
 		
 	private:
 		using ComponentArray = std::array<std::shared_ptr<Component>, MAX_COMPONENTS>;

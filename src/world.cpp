@@ -19,6 +19,7 @@ namespace wase::ecs
 	void World::destroyEntity(const Id entityId)
 	{
 		m_SystemPool.onEntityDestroyed(m_EntityPool.getEntity(entityId), getComponentMap(entityId));
+		m_ComponentPool.onEntityDestroyed(entityId);
 		m_EntityPool.destroyEntity(entityId);
 	}
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdexcept>
+
 #include <type_id.h>
 #include <component.h>
 

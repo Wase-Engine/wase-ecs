@@ -2,7 +2,7 @@
 
 [![Website badge](https://img.shields.io/website?up_message=online&url=https%3A%2F%2Fwase-ecs.com%2F)](https://wase-ecs.com/)
 [![Discord badge](https://img.shields.io/discord/864845724444393472?label=discord)](https://discord.gg/2RBMMxMJ7R)
-[![Mit License badge](https://img.shields.io/apm/l/vim-mode)](https://github.com/Wase-ECS/wase-ecs/blob/master/LICENSE)
+[![Mit License badge](https://img.shields.io/apm/l/vim-mode)](https://github.com/Wase-ECS/wase-ecs/blob/main/LICENSE)
 [![Issues badge](https://img.shields.io/github/issues/Wase-ECS/wase-ecs-website)](https://github.com/Wase-ECS/wase-ecs-website/issues)
 ![Lines badge](https://img.shields.io/tokei/lines/github/Wase-ECS/wase-ecs-website)
 ![Stars badge](https://img.shields.io/github/stars/Wase-ECS/wase-ecs-website?style=social)

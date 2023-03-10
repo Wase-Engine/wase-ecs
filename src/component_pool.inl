@@ -6,7 +6,7 @@
 namespace wase::ecs
 {
 	template<typename T>
-	T& ComponentPool::getComponent(const Id entityId)
+	T& ComponentPool::getComponent(const Id entityId) const
 	{
 		return *std::static_pointer_cast<T>(m_Components[entityId][TypeID::getTypeID<T>()]);
 	}
@@ -38,7 +38,7 @@ namespace wase::ecs
 	}
 
 	template<typename T>
-	bool ComponentPool::hasComponent(const Id entityId)
+	bool ComponentPool::hasComponent(const Id entityId) const
 	{
 		if (entityId >= m_ComponentMaps.size())
 			return false;

@@ -8,8 +8,16 @@ namespace wase::ecs
 	class TypeID
 	{
 	public:
+		/**
+		 * Deleted constructor.
+		 */
 		TypeID() = delete;
 
+		/**
+		 * Get the type ID of a component.
+		 * 
+		 * @return The type ID of the component.
+		 */
 		template<typename T>
 		static size_t getTypeID();
 

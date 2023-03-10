@@ -5,7 +5,7 @@
 namespace wase::ecs
 {
 	template<typename T>
-	T& Entity::getComponent()
+	T& Entity::getComponent() const
 	{
 		return m_World->m_ComponentPool.getComponent<T>(m_ID);
 	}
@@ -27,7 +27,7 @@ namespace wase::ecs
 	}
 
 	template<typename T>
-	bool Entity::hasComponent()
+	bool Entity::hasComponent() const
 	{
 		return m_World->m_ComponentPool.hasComponent<T>(m_ID);
 	}

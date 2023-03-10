@@ -19,6 +19,8 @@ To include tests you can add the `-Denable_test=1` flag to the cmake command.
 
 ## Usage
 
+To include Wase ECS to your project you can include the `ecs.h` file.
+
 ### Creating a World object
 First you need to set up a World object. The World handles everything for the ECS.
 ```c++

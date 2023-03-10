@@ -18,6 +18,16 @@ namespace wase::ecs
 		return m_Entities[id];
 	}
 
+	std::vector<Entity*> EntityPool::getEntities()
+	{
+		std::vector<Entity*> entities;
+
+		for (auto& entity : m_Entities)
+			entities.push_back(&entity);
+
+		return entities;
+	}
+
 	Entity& EntityPool::getEntity(const Id entityId)
 	{
 		return m_Entities.at(entityId);

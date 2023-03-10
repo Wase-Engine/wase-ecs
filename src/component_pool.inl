@@ -1,19 +1,20 @@
 #pragma once
 
 #include <component_pool.h>
+#include <type_id.h>
 
 namespace wase::ecs
 {
 	template<typename T>
 	T& ComponentPool::getComponent(const Id entityId)
 	{
-		return *std::static_pointer_cast<T>(m_Components[entityId][getComponentTypeId<T>()]);
+		return *std::static_pointer_cast<T>(m_Components[entityId][TypeID::getTypeID<T>()]);
 	}
 
 	template<typename T>
 	T& ComponentPool::addComponent(const Id entityId, std::shared_ptr<T>&& component)
 	{
-		const size_t typeId = getComponentTypeId<T>();
+		const size_t typeId = TypeID::getTypeID<T>();
 
 		if (m_Components.size() <= entityId)
 		{
@@ -30,7 +31,7 @@ namespace wase::ecs
 	template<typename T>
 	void ComponentPool::removeComponent(const Id entityId)
 	{
-		const size_t typeId = getComponentTypeId<T>();
+		const size_t typeId = TypeID::getTypeID<T>();
 
 		m_Components[entityId][typeId] = nullptr;
 		m_ComponentMaps[entityId].reset(typeId);
@@ -42,20 +43,6 @@ namespace wase::ecs
 		if (entityId >= m_ComponentMaps.size())
 			return false;
 		
-		return m_ComponentMaps[entityId].test(getComponentTypeId<T>());
-	}
-
-	template<typename T>
-	size_t ComponentPool::getComponentTypeId()
-	{
-		const std::string typeName = typeid(T).name();
-
-		if (componentTypeIds.size() >= MAX_COMPONENTS)
-			throw std::runtime_error("Too many components");
-
-		if (componentTypeIds.find(typeName) == componentTypeIds.end())
-			componentTypeIds[typeName] = componentTypeIds.size();
-
-		return componentTypeIds[typeName];
+		return m_ComponentMaps[entityId].test(TypeID::getTypeID<T>());
 	}
 }

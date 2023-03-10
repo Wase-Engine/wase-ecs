@@ -18,6 +18,8 @@ namespace wase::ecs
 		template<typename T>
 		T& getComponent(const Id entityId);
 
+		ComponentMap getComponentMap(const Id entityId) const;
+
 		template<typename T>
 		T& addComponent(const Id entityId, std::shared_ptr<T>&& component);
 
@@ -26,16 +28,10 @@ namespace wase::ecs
 
 		template<typename T>
 		bool hasComponent(const Id entityId);
-
-	private:
-		template<typename T>
-		size_t getComponentTypeId();
-
+		
 	private:
 		using ComponentArray = std::array<std::shared_ptr<Component>, MAX_COMPONENTS>;
-		using ComponentMap = std::bitset<MAX_COMPONENTS>;
-
-		std::unordered_map<std::string, size_t> componentTypeIds;
+		
 		std::vector<ComponentArray> m_Components;
 		std::vector<ComponentMap> m_ComponentMaps;
 	};

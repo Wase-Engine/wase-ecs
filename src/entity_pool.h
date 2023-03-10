@@ -14,6 +14,8 @@ namespace wase::ecs
 	public:
 		Entity& createEntity();
 
+		std::vector<Entity*> getEntities();
+
 		Entity& getEntity(const Id entityId);
 
 		void destroyEntity(const Id entityId);

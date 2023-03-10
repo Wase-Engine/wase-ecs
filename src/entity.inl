@@ -14,6 +14,7 @@ namespace wase::ecs
 	T& Entity::addComponent(Args&&... args)
 	{
 		m_World->m_ComponentPool.addComponent<T>(m_ID, std::make_shared<T>(std::forward<Args>(args)...));
+		m_World->m_SystemPool.onEntityComponentMapChanged(this);
 
 		return getComponent<T>();
 	}
@@ -22,6 +23,7 @@ namespace wase::ecs
 	void Entity::removeComponent()
 	{
 		m_World->m_ComponentPool.removeComponent<T>(m_ID);
+		m_World->m_SystemPool.onEntityComponentMapChanged(this);
 	}
 
 	template<typename T>

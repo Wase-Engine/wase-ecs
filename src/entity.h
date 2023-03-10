@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#include <component.h>
+
 namespace wase::ecs
 {
 	class World;
@@ -22,6 +24,8 @@ namespace wase::ecs
 		void disable();
 
 		bool isEnabled() const;
+
+		ComponentMap getComponentMap() const;
 
 		template<typename T>
 		T& getComponent();

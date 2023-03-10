@@ -10,51 +10,51 @@ namespace wase::ecs
 		}
 	}
 
-	void SystemPool::onEntityCreated(Entity* entity) const
+	void SystemPool::onEntityCreated(Entity* entity, const ComponentMap componentMap) const
 	{
 		for (auto& [name, system] : m_Systems)
 		{
-			if (system->getFilter().matches(entity->getComponentMap()))
+			if (system->getFilter().matches(componentMap))
 				system->addEntity(entity);
 		}
 	}
 
-	void SystemPool::onEntityDestroyed(Entity* entity) const
+	void SystemPool::onEntityDestroyed(Entity* entity, const ComponentMap componentMap) const
 	{
 		for (auto& [name, system] : m_Systems)
 		{
-			if (system->getFilter().matches(entity->getComponentMap()))
+			if (system->getFilter().matches(componentMap))
 				system->removeEntity(entity);
 		}
 	}
 
-	void SystemPool::onEntityEnabled(Entity* entity) const
+	void SystemPool::onEntityEnabled(Entity* entity, const ComponentMap componentMap) const
 	{
 		for (auto& [name, system] : m_Systems)
 		{
-			if (system->getFilter().matches(entity->getComponentMap()))
+			if (system->getFilter().matches(componentMap))
 			{
 				system->enableEntity(entity);
 			}
 		}
 	}
 
-	void SystemPool::onEntityDisabled(Entity* entity) const
+	void SystemPool::onEntityDisabled(Entity* entity, const ComponentMap componentMap) const
 	{
 		for (auto& [name, system] : m_Systems)
 		{
-			if (system->getFilter().matches(entity->getComponentMap()))
+			if (system->getFilter().matches(componentMap))
 			{
 				system->disableEntity(entity);
 			}
 		}
 	}
 
-	void SystemPool::onEntityComponentMapChanged(Entity* entity) const
+	void SystemPool::onEntityComponentMapChanged(Entity* entity, const ComponentMap componentMap) const
 	{
 		for (auto& [name, system] : m_Systems)
 		{
-			system->checkEntity(entity);
+			system->checkEntity(entity, componentMap);
 		}
 	}
 }

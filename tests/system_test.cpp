@@ -21,7 +21,7 @@ public:
 	{
 		for (auto& entity : m_EnabledEntities)
 		{
-			auto& audio = entity->getComponent<AudioComponent>();
+			auto& audio = m_ComponentPool->getComponent<AudioComponent>(entity->getId());
 			audio.volume += 10;
 		}
 	}
@@ -33,11 +33,12 @@ TEST(SystemTest, Update)
 	world.registerSystem<AudioSystem>();
 
 	Entity* entity = world.createEntity();
-	entity->addComponent<AudioComponent>();
+	world.addComponent<AudioComponent>(entity->getId());
 
 	world.update(0.0f);
-
-	auto& audio = entity->getComponent<AudioComponent>();
+	
+	auto& audio = world.getComponent<AudioComponent>(entity->getId());
+	
 	EXPECT_EQ(audio.volume, 10);
 }
 
@@ -47,18 +48,18 @@ TEST(SystemTest, EnableDisableEntity)
 	world.registerSystem<AudioSystem>();
 
 	Entity* entity = world.createEntity();
-	entity->addComponent<AudioComponent>();
+	world.addComponent<AudioComponent>(entity->getId());
 
 	world.update(0.0f);
 
-	auto& audio = entity->getComponent<AudioComponent>();
+	auto& audio = world.getComponent<AudioComponent>(entity->getId());
 	EXPECT_EQ(audio.volume, 10);
 
-	entity->disable();
+	world.disableEntity(entity->getId());
 	world.update(0.0f);
 	EXPECT_EQ(audio.volume, 10);
 
-	entity->enable();
+	world.enableEntity(entity->getId());
 	world.update(0.0f);
 	EXPECT_EQ(audio.volume, 20);
 }
@@ -69,17 +70,17 @@ TEST(SystemTest, EntityAdded)
 	world.registerSystem<AudioSystem>();
 
 	Entity* entity = world.createEntity();
-	entity->addComponent<AudioComponent>();
+	world.addComponent<AudioComponent>(entity->getId());
 
 	world.update(0.0f);
 
 	Entity* entity2 = world.createEntity();
-	entity2->addComponent<AudioComponent>();
+	world.addComponent<AudioComponent>(entity2->getId());
 
 	world.update(0.0f);
 
-	auto& audio = entity->getComponent<AudioComponent>();
-	auto& audio2 = entity2->getComponent<AudioComponent>();
+	auto& audio = world.getComponent<AudioComponent>(entity->getId());
+	auto& audio2 = world.getComponent<AudioComponent>(entity2->getId());
 	EXPECT_EQ(audio.volume, 20);
 	EXPECT_EQ(audio2.volume, 10);
 }

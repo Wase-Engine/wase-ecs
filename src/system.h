@@ -4,6 +4,7 @@
 
 #include <entity_filter.h>
 #include <entity.h>
+#include <component_pool.h>
 
 namespace wase::ecs
 {
@@ -54,8 +55,9 @@ namespace wase::ecs
 		 * Check if an entity still matches the system's filter.
 		 * 
 		 * @param entity Entity to check.
+		 * @param componentMap The component map of the entity.
 		 */
-		void checkEntity(Entity* entity);
+		void checkEntity(Entity* entity, const ComponentMap componentMap);
 
 	protected:
 		/**
@@ -66,6 +68,7 @@ namespace wase::ecs
 	protected:
 		std::vector<Entity*> m_EnabledEntities;
 		std::vector<Entity*> m_DisabledEntities;
+		ComponentPool* m_ComponentPool;
 		
 	private:
 		EntityFilter m_Filter;

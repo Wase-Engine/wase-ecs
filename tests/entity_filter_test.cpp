@@ -22,10 +22,10 @@ TEST(EntityFilterTest, Require)
 
 	World world;
 	Entity* entity = world.createEntity();
-	entity->addComponent<TransformComponent>();
-	entity->addComponent<AudioComponent>();
+	world.addComponent<TransformComponent>(entity->getId());
+	world.addComponent<AudioComponent>(entity->getId());
 
-	EXPECT_TRUE(filter.matches(entity->getComponentMap()));
+	EXPECT_TRUE(filter.matches(world.getComponentMap(entity->getId())));
 }
 
 TEST(EntityFilterTest, Exclude)
@@ -36,8 +36,8 @@ TEST(EntityFilterTest, Exclude)
 
 	World world;
 	Entity* entity = world.createEntity();
-	entity->addComponent<TransformComponent>();
-	entity->addComponent<AudioComponent>();
+	world.addComponent<TransformComponent>(entity->getId());
+	world.addComponent<AudioComponent>(entity->getId());
 
-	EXPECT_FALSE(filter.matches(entity->getComponentMap()));
+	EXPECT_FALSE(filter.matches(world.getComponentMap(entity->getId())));
 }

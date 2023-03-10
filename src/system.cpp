@@ -38,9 +38,9 @@ namespace wase::ecs
 		m_DisabledEntities.push_back(entity);
 	}
 
-	void System::checkEntity(Entity* entity)
+	void System::checkEntity(Entity* entity, const ComponentMap componentMap)
 	{
-		if (m_Filter.matches(entity->getComponentMap()))
+		if (m_Filter.matches(componentMap))
 			if (std::find(m_EnabledEntities.begin(), m_EnabledEntities.end(), entity) == m_EnabledEntities.end() &&
 				std::find(m_DisabledEntities.begin(), m_DisabledEntities.end(), entity) == m_DisabledEntities.end())
 				addEntity(entity);

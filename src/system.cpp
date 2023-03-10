@@ -24,9 +24,6 @@ namespace wase::ecs
 
 	void System::removeEntity(Entity* entity)
 	{
-		//m_EnabledEntities.erase(std::remove(m_EnabledEntities.begin(), m_EnabledEntities.end(), entity), m_EnabledEntities.end());
-		//m_DisabledEntities.erase(std::remove(m_DisabledEntities.begin(), m_DisabledEntities.end(), entity), m_DisabledEntities.end());
-		
 		auto newEnd = std::remove_if(m_EnabledEntities.begin(), m_EnabledEntities.end(),
 			[entity](Entity* e) { return e == entity; });
 		

@@ -12,6 +12,8 @@
 
 namespace wase::ecs
 {
+	class World;
+
 	class ComponentPool
 	{
 	public:

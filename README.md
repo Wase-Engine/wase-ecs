@@ -42,9 +42,9 @@ world.destroyEntity(entity->getId());
 
 The Entity class has some methods itself too to manage the entity state.
 ```c++
-Id id = entity.getId();
-entity.enable();
-entity.disable();
+Id id = entity->getId();
+world.enableEntity(id);
+world.disableEntity(id);
 bool enabled = entity.isEnabled();
 ```
 
@@ -60,10 +60,10 @@ struct TransformComponent : wase::ecs::Component
 
 To manage components on entities you can use the methods in the Entity class.
 ```c++
-entity.addComponent<TransformComponent>();
-TransformComponent& component = entity.getComponent<TransformComponent>();
-bool hasComponent = entity.hasComponent<TransformComponent>();
-entity.removeComponent<TransformComponent>();
+world.addComponent<TransformComponent>(entityId);
+TransformComponent& component = world.getComponent<TransformComponent>(entityId);
+bool hasComponent = world.hasComponent<TransformComponent>(entityId);
+world.removeComponent<TransformComponent>(entityId);
 ```
 
 ### Systems
@@ -125,7 +125,7 @@ public:
     {
         for(Entity* entity : m_EnabledEntities)
         {
-            auto& transform = entity->getComponent<TransformComponent>();
+            auto& transform = m_ComponentPool->getComponent<TransformComponent>(entity->getId());
             transform.x++;
             transform.y++;
         }

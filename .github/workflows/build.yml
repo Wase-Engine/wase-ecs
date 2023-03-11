@@ -4,6 +4,7 @@ on:
   pull_request:
     branches: [main, development]
 
+# Test if Wase-ECS is buildable on various environments and run tests
 jobs:
   windows:
     runs-on: windows-latest

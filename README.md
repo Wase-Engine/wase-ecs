@@ -132,10 +132,10 @@ public:
     }
 };
 ```
-`m_EnabledEntities` hold all the entities that are matched with the entity filter and are enabled. You could also make use of `m_DisabledEntities`, this contains all the matching entities that are disabled.
+`m_EnabledEntities` holds all the entities that are matched with the entity filter and are enabled. You could also make use of `m_DisabledEntities`, this contains all the matching entities that are disabled.
 
 ## Documentation
-You can head over to the [documentation](https://wase-ecs.com/documentation) for more information about Wase ECS. In the [documentation](https://wase-ecs.com/documentation) there is a detailed description about how Wase ECS works.
+For more information on Wase ECS, you can head over to the [official documentation](https://wase-ecs.com/documentation). Here you will find a detailed breakdown of Wase ECS, covering all its diverse elements and features.
 
 ## Contributing
 If you want to contribute to Wase ECS you can head over to the [contributing](https://github.com/Wase-ECS/wase-ecs/blob/main/CONTRIBUTING.md) page for more information.

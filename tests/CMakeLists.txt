@@ -39,4 +39,4 @@ target_link_libraries(
 
 include(GoogleTest)
 
-gtest_discover_tests(wase-ecs-tests)
+gtest_discover_tests(wase-ecs-tests PROPERTIES TIMEOUT 600)

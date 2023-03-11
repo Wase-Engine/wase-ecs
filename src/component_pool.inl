@@ -1,54 +1,48 @@
 #pragma once
 
 #include <component_pool.h>
-
-#include <stdexcept>
+#include <type_id.h>
 
 namespace wase::ecs
 {
 	template<typename T>
-	void wase::ecs::ComponentPool::registerComponent()
+	T& ComponentPool::getComponent(const Id entityId) const
 	{
-		std::string name = typeid(T).name();
-
-		if (m_ComponentArrays.find(name) != m_ComponentArrays.end())
-			throw std::logic_error("Component is already registered.");
-
-		m_ComponentArrays.insert({ name, std::make_shared<ComponentArray<T>>() });
+		return *std::static_pointer_cast<T>(m_Components[entityId][TypeID::getTypeID<T>()]);
 	}
 
 	template<typename T>
-	void ComponentPool::addComponent(Entity entity, T component)
+	T& ComponentPool::addComponent(const Id entityId, std::shared_ptr<T>&& component)
 	{
-		getComponentArray<T>()->insert(entity, component);
+		const size_t typeId = TypeID::getTypeID<T>();
+
+		if (m_Components.size() <= entityId)
+		{
+			m_Components.resize(entityId + 1);
+			m_ComponentMaps.resize(entityId + 1);
+		}
+		
+		m_Components[entityId][typeId] = std::move(component);
+		m_ComponentMaps[entityId].set(typeId);
+
+		return getComponent<T>(entityId);
 	}
 
 	template<typename T>
-	T& ComponentPool::getComponent(Entity entity)
+	void ComponentPool::removeComponent(const Id entityId)
 	{
-		return getComponentArray<T>()->getData(entity);
+		const size_t typeId = TypeID::getTypeID<T>();
+
+		m_Components[entityId][typeId] = nullptr;
+		m_ComponentMaps[entityId].reset(typeId);
 	}
 
 	template<typename T>
-	bool ComponentPool::hasComponent(Entity entity)
+	bool ComponentPool::hasComponent(const Id entityId) const
 	{
-		return getComponentArray<T>()->hasEntity(entity);
-	}
-
-	template<typename T>
-	void ComponentPool::removeComponent(Entity entity)
-	{
-		getComponentArray<T>()->remove(entity);
-	}
-
-	template<typename T>
-	std::shared_ptr<ComponentArray<T>> ComponentPool::getComponentArray()
-	{
-		std::string name = typeid(T).name();
-
-		if (m_ComponentArrays.find(name) == m_ComponentArrays.end())
-			throw std::logic_error("Component is not registered.");
-
-		return std::static_pointer_cast<ComponentArray<T>>(m_ComponentArrays[name]);
+		if (entityId >= m_ComponentMaps.size())
+			return false;
+		
+		return m_ComponentMaps[entityId].test(TypeID::getTypeID<T>());
 	}
 }

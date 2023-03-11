@@ -1,10 +1,8 @@
 #pragma once
 
-#include <string>
-#include <cstdint>
-
-#include <system.h>
 #include <entity_pool.h>
+#include <component_pool.h>
+#include <system_pool.h>
 
 namespace wase::ecs
 {
@@ -13,65 +11,104 @@ namespace wase::ecs
 	public:
 		/**
 		 * Create a new entity.
-		 *
+		 * 
 		 * @return The new entity.
 		 */
-		Entity createEntity();
+		Entity* createEntity();
 
 		/**
-		 * Create a new entity with a name.
-		 *
-		 * @param name: the name of the entity
-		 * @return The new entity.
+		 * Get an entity by its ID.
+		 * 
+		 * @param id The ID of the entity.
+		 * @return The entity.
 		 */
-		Entity createEntity(const std::string& name);
-
-		/**
-		 * Get the entity name by its id
-		 *
-		 * @param id: the entity id
-		 * @return The name of the entity
-		 */
-		std::string getEntityName(const uint32_t id) const;
-
-		/**
-		 * Get an entity by name
-		 *
-		 * @param name: the name of the entity
-		 * @return The entity or -1 if the name doesn't match any entity
-		 */
-		Entity getEntityByName(const std::string& name) const;
-
-		/**
-		 * Disable an entity
-		 *
-		 * @param id: the entity id
-		 */
-		void disableEntity(const Entity entity);
-
-		/**
-		 * Enable an entity
-		 *
-		 * @param id: the entity id
-		 */
-		void enableEntity(const Entity entity);
-
-		/**
-		 * Check if an entity is enabled
-		 *
-		 * @param id: the entity id
-		 * @return true if the entity is enabled
-		 */
-		bool isEnabled(const Entity entity) const;
+		Entity* getEntity(const Id entityId) const;
 
 		/**
 		 * Destroy an entity.
-		 *
-		 * @param id: The entity id
+		 * 
+		 * @param entity The entity to destroy.
 		 */
-		void destroyEntity(const Entity id);
+		void destroyEntity(const Id entityId);
+
+		/**
+		 * Enable an entity.
+		 * 
+		 * @param entity The entity to enable.
+		 */
+		void enableEntity(const Id entityId);
+
+		/**
+		 * Disable an entity.
+		 * 
+		 * @param entity The entity to disable.
+		 */
+		void disableEntity(const Id entityId);
+
+		/**
+		 * Get a component from an entity.
+		 * 
+		 * @param entityId The ID of the entity.
+		 * @return The component.
+		 */
+		template<typename T>
+		T& getComponent(const Id entityId) const;
+
+		/**
+		 * Add a component to an entity.
+		 * 
+		 * @param entityId The ID of the entity.
+		 * @param component The component to add.
+		 * @return The component.
+		 */
+		template<typename T, typename... Args>
+		T& addComponent(const Id entityId, Args&&... args);
+
+		/**
+		 * Remove a component from an entity.
+		 * 
+		 * @param entityId The ID of the entity.
+		 */
+		template<typename T>
+		void removeComponent(const Id entityId);
+
+		/**
+		 * Check if an entity has a component.
+		 * 
+		 * @param entityId The ID of the entity.
+		 * @return True if the entity has the component.
+		 */
+		template<typename T>
+		bool hasComponent(const Id entityId) const;
+
+		/**
+		 * Get the component map of an entity.
+		 * 
+		 * @param entityId The ID of the entity.
+		 * @return The component map.
+		 */
+		ComponentMap getComponentMap(const Id entityId) const;
+
+		/**
+		 * Register a system with the system pool.
+		 */
+		template<typename T>
+		void registerSystem();
+
+		/**
+		 * Update all registered systems.
+		 * 
+		 * @param deltaTime Delta time.
+		 */
+		void update(const float deltaTime);
 
 	private:
 		EntityPool m_EntityPool;
+		ComponentPool m_ComponentPool;
+		SystemPool m_SystemPool;
+
+		friend class Entity;
 	};
 }
+
+#include <world.inl>

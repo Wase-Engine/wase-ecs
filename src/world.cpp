@@ -1,44 +1,49 @@
 #include <world.h>
 
 namespace wase::ecs
-{	
-	Entity World::createEntity()
+{
+	Entity* World::createEntity()
 	{
-		return m_EntityPool.createEntity();
+		Entity* entity = m_EntityPool.createEntity();
+
+		m_SystemPool.onEntityCreated(entity, getComponentMap(entity->getId()));
+		
+		return entity;
 	}
 
-	Entity World::createEntity(const std::string& name)
+	Entity* World::getEntity(const Id entityId) const
 	{
-		return m_EntityPool.createEntity(name);
+		return m_EntityPool.getEntity(entityId);
 	}
 
-	std::string World::getEntityName(const uint32_t id) const
+	void World::destroyEntity(const Id entityId)
 	{
-		return m_EntityPool.getEntityName(id);
+		m_SystemPool.onEntityDestroyed(m_EntityPool.getEntity(entityId), getComponentMap(entityId));
+		m_ComponentPool.onEntityDestroyed(entityId);
+		m_EntityPool.destroyEntity(entityId);
 	}
 
-	Entity World::getEntityByName(const std::string& name) const
+	void World::update(const float deltaTime)
 	{
-		return m_EntityPool.getEntityByName(name);
+		m_SystemPool.update(deltaTime);
 	}
 
-	void World::disableEntity(const Entity entity)
+	void World::enableEntity(const Id entityId)
 	{
-		m_EntityPool.disableEntity(entity);
+		Entity* entity = m_EntityPool.getEntity(entityId);
+		entity->m_Enabled = true;
+		m_SystemPool.onEntityEnabled(entity, getComponentMap(entityId));
 	}
 
-	void World::enableEntity(const Entity entity)
+	void World::disableEntity(const Id entityId)
 	{
-		m_EntityPool.enableEntity(entity);
+		Entity* entity = m_EntityPool.getEntity(entityId);
+		entity->m_Enabled = false;
+		m_SystemPool.onEntityDisabled(entity, getComponentMap(entityId));
 	}
 
-	bool World::isEnabled(const Entity entity) const
+	ComponentMap World::getComponentMap(const Id entityId) const
 	{
-		return m_EntityPool.isEnabled(entity);
-	}
-
-	void World::destroyEntity(const Entity id)
-	{
-		m_EntityPool.destroyEntity(id);
+		return m_ComponentPool.getComponentMap(entityId);
 	}
 }

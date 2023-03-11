@@ -4,104 +4,41 @@
 
 using namespace wase::ecs;
 
-TEST(EntityPoolTest, CreateEntityID)
+TEST(EntityPoolTest, CreateEntity)
 {
 	EntityPool pool;
+	Entity* entity = pool.createEntity();
 
-	Entity entity1 = pool.createEntity();
-	Entity entity2 = pool.createEntity();
-
-	EXPECT_EQ(entity1, 0);
-	EXPECT_EQ(entity2, 1);
+	EXPECT_NE(nullptr, entity);
 }
 
-TEST(EntityPoolTest, CreateEntityName)
+TEST(EntityPoolTest, GetEntity)
 {
 	EntityPool pool;
+	Entity* entity = pool.createEntity();
 
-	Entity entity = pool.createEntity("Test Entity");
-
-	EXPECT_EQ(entity, 0);
-	EXPECT_EQ(pool.getEntityName(entity), "Test Entity");
+	EXPECT_EQ(entity, pool.getEntity(entity->getId()));
 }
 
-TEST(EntityPoolTest, CreateEntitySameName)
+TEST(EntityPoolTest, GetEntities)
 {
 	EntityPool pool;
+	Entity* entity1 = pool.createEntity();
+	Entity* entity2 = pool.createEntity();
 
-	Entity entity1 = pool.createEntity("Test Entity");
+	std::vector<Entity*> entities = pool.getEntities();
 
-	EXPECT_ANY_THROW(pool.createEntity("Test Entity"));
+	EXPECT_EQ(2, entities.size());
+	EXPECT_EQ(entity1, entities[0]);
+	EXPECT_EQ(entity2, entities[1]);
 }
 
 TEST(EntityPoolTest, DestroyEntity)
 {
 	EntityPool pool;
-	Entity entity = pool.createEntity("Test");
+	Entity* entity = pool.createEntity();
 
-	EXPECT_EQ(entity, 0);
-	EXPECT_EQ(pool.getSize(), 1);
-	EXPECT_EQ(pool.getEntityByName("Test"), entity);
-	EXPECT_EQ(pool.getEntityName(entity), "Test");
+	pool.destroyEntity(entity->getId());
 
-	pool.destroyEntity(entity);
-	
-	entity = pool.createEntity("One");
-	
-	EXPECT_EQ(entity, 0);
-
-	entity = pool.createEntity();
-
-	EXPECT_EQ(entity, 1);
-	
-	pool.createEntity();
-
-	EXPECT_EQ(pool.getSize(), 3);
-	EXPECT_EQ(pool.getEntityByName("One"), 0);
-	EXPECT_EQ(pool.getEntityByName("Test"), -1);
-	EXPECT_EQ(pool.getEntityName(entity), "");
-}
-
-TEST(EntityPoolTest, GetEntityByName)
-{
-	EntityPool pool;
-
-	Entity entity = pool.createEntity("Test Entity");
-
-	EXPECT_EQ(pool.getEntityByName("Test Entity"), entity);
-}
-
-TEST(EntityPoolTest, GetEntityNameByID)
-{
-	EntityPool pool;
-
-	Entity entity = pool.createEntity("Test Entity");
-
-	EXPECT_EQ(pool.getEntityName(entity), "Test Entity");
-}
-
-TEST(EntityPoolTest, EnableEntity)
-{
-	EntityPool pool;
-
-	Entity entity = pool.createEntity();
-
-	pool.disableEntity(entity);
-
-	EXPECT_FALSE(pool.isEnabled(entity));
-
-	pool.enableEntity(entity);
-
-	EXPECT_TRUE(pool.isEnabled(entity));
-}
-
-TEST(EntityPoolTest, DisableEntity)
-{
-	EntityPool pool;
-
-	Entity entity = pool.createEntity();
-
-	pool.disableEntity(entity);
-
-	EXPECT_FALSE(pool.isEnabled(entity));
+	EXPECT_EQ(nullptr, pool.getEntity(0));
 }

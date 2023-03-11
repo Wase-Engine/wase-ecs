@@ -1,80 +1,41 @@
 #include <entity_pool.h>
 
-#include <stdexcept>
-
 namespace wase::ecs
 {
-	Entity EntityPool::createEntity()
+	Entity* EntityPool::createEntity()
 	{
 		if (m_Ids.size() <= 0)
 			m_Ids.push(m_NextId++);
 
-		uint32_t id = m_Ids.front();
+		const auto id = m_Ids.front();
 		m_Ids.pop();
 
-		extend(id + 1);
-		
-		m_Size++;
-		
-		m_Entities[id].entity = id;
-		
-		return id;
+		if (m_Entities.size() <= id)
+			m_Entities.resize(id + 1);
+
+		m_Entities[id] = std::make_shared<Entity>(id);
+
+		return m_Entities[id].get();
 	}
 
-	Entity EntityPool::createEntity(const std::string& name)
+	std::vector<Entity*> EntityPool::getEntities() const
 	{
-		if (m_Names.count(name))
-			throw std::logic_error("Entity name already exists");
+		std::vector<Entity*> entities;
 
-		Entity entity = createEntity();
+		for (auto& entity : m_Entities)
+			entities.push_back(entity.get());
 
-		m_Entities[entity].name = name;
-		m_Names[name] = entity;
-		
-		return entity;
+		return entities;
 	}
 
-	std::string EntityPool::getEntityName(const uint32_t id) const
+	Entity* EntityPool::getEntity(const Id entityId) const
 	{
-		return m_Entities[id].name;
+		return m_Entities.at(entityId).get();
 	}
 
-	Entity EntityPool::getEntityByName(const std::string& name) const
+	void EntityPool::destroyEntity(const Id entityId)
 	{
-		return m_Names.count(name) ? m_Names.at(name) : -1;
-	}
-
-	void EntityPool::disableEntity(const Entity entity)
-	{
-		m_Entities[entity].enabled = false;
-	}
-
-	void EntityPool::enableEntity(const Entity entity)
-	{
-		m_Entities[entity].enabled = true;
-	}
-
-	bool EntityPool::isEnabled(const Entity entity) const
-	{
-		return m_Entities[entity].enabled;
-	}
-
-	void EntityPool::destroyEntity(const Entity id)
-	{
-		m_Names.erase(getEntityName(id));
-		m_Entities[id] = EntityHolder();
-		m_Ids.push(id);
-		m_Size--;
-	}
-
-	uint32_t EntityPool::getSize() const
-	{
-		return m_Size;
-	}
-
-	void EntityPool::extend(const uint32_t size)
-	{
-		if (size > m_Entities.size())
-			m_Entities.resize(size);
+		m_Entities[entityId] = nullptr;
+		m_Ids.push(entityId);
 	}
 }

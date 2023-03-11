@@ -1,73 +1,78 @@
 #pragma once
 
-#include <cstdint>
+#include <vector>
+#include <array>
 #include <memory>
+#include <bitset>
 #include <unordered_map>
 #include <string>
 
 #include <component.h>
-#include <component_array.h>
+#include <entity.h>
 
 namespace wase::ecs
 {
-	using Entity = uint32_t;
-	
+	class World;
+
 	class ComponentPool
 	{
 	public:
 		/**
-		 * Registers a component type with the component pool.
+		 * Get a component beloning to an entity
+		 * 
+		 * @param entityId The id of the entity
+		 * @return A reference to the component
 		 */
 		template<typename T>
-		void registerComponent();
+		T& getComponent(const Id entityId) const;
 
 		/**
 		 * Add a component to an entity
 		 * 
-		 * @param entity: the entity to add the component to
-		 * @param component: the component to add
-		 * @return The component
+		 * @param entityId The id of the entity
+		 * @param component The component to add
+		 * @return A reference to the component
 		 */
 		template<typename T>
-		void addComponent(Entity entity, T component);
-
-		/**
-		 * Check if an entity has a component
-		 *
-		 * @param entity: the entity to check
-		 * @return True if the entity has the component
-		 */
-		template<typename T>
-		bool hasComponent(Entity entity);
-
-		/**
-		 * Get a component from an entity
-		 *
-		 * @param entity: the entity to get the component from
-		 * @return The component
-		 */
-		template<typename T>
-		T& getComponent(Entity entity);
+		T& addComponent(const Id entityId, std::shared_ptr<T>&& component);
 
 		/**
 		 * Remove a component from an entity
-		 *
-		 * @param entity: the entity to remove the component from
-		 */
-		template<typename T>
-		void removeComponent(Entity entity);
-
-	private:
-		std::unordered_map<std::string, std::shared_ptr<IComponentArray>> m_ComponentArrays;
-
-	private:
-		/**
-		 * Get the component array for a specific component type
 		 * 
-		 * @return The component array
+		 * @param entityId The id of the entity
 		 */
 		template<typename T>
-		std::shared_ptr<ComponentArray<T>> getComponentArray();
+		void removeComponent(const Id entityId);
+
+		/**
+		 * Check if an entity has a component
+		 * 
+		 * @param entityId The id of the entity
+		 * @return True if the entity has the component
+		 */
+		template<typename T>
+		bool hasComponent(const Id entityId) const;
+
+		/**
+		 * Get the component map of an entity
+		 * 
+		 * @param entityId The id of the entity
+		 * @return The component map
+		 */
+		ComponentMap getComponentMap(const Id entityId) const;
+
+		/**
+		 * Handles the destruction of an entity
+		 * 
+		 * @param entityId The id of the entity
+		 */
+		void onEntityDestroyed(const Id entityId);
+		
+	private:
+		using ComponentArray = std::array<std::shared_ptr<Component>, MAX_COMPONENTS>;
+		
+		std::vector<ComponentArray> m_Components;
+		std::vector<ComponentMap> m_ComponentMaps;
 	};
 }
 

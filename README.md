@@ -1,6 +1,6 @@
-[![Wase ECS logo banner](http://wase-ecs.com/img/banner.png)](https://wase-ecs.com/)
+[![Wase ECS logo banner](https://wase-engine.com/img/wase-ecs-banner.png)](https://wase-engine.com/)
 
-[![Website badge](https://img.shields.io/website?up_message=online&url=https%3A%2F%2Fwase-ecs.com%2F)](https://wase-ecs.com/)
+[![Website badge](https://img.shields.io/website?up_message=online&url=https%3A%2F%2Fwase-engine.com%2F)](https://wase-engine.com/)
 [![Discord badge](https://img.shields.io/discord/864845724444393472?label=discord)](https://discord.gg/2RBMMxMJ7R)
 [![Mit License badge](https://img.shields.io/github/license/wase-ecs/wase-ecs)](https://github.com/Wase-ECS/wase-ecs/blob/main/LICENSE)
 [![Issues badge](https://img.shields.io/github/issues/Wase-ECS/wase-ecs)](https://github.com/Wase-ECS/wase-ecs/issues)
@@ -133,9 +133,6 @@ public:
 };
 ```
 `m_EnabledEntities` holds all the entities that are matched with the entity filter and are enabled. You could also make use of `m_DisabledEntities`, this contains all the matching entities that are disabled.
-
-## Documentation
-For more information on Wase ECS, you can head over to the [official documentation](https://wase-ecs.com/documentation). Here you will find a detailed breakdown of Wase ECS, covering all its diverse elements and features.
 
 ## Contributing
 If you want to contribute to Wase ECS you can head over to the [contributing](https://github.com/Wase-ECS/wase-ecs/blob/main/CONTRIBUTING.md) page for more information.

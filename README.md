@@ -2,10 +2,10 @@
 
 [![Website badge](https://img.shields.io/website?up_message=online&url=https%3A%2F%2Fwase-engine.com%2F)](https://wase-engine.com/)
 [![Discord badge](https://img.shields.io/discord/864845724444393472?label=discord)](https://discord.gg/2RBMMxMJ7R)
-[![Mit License badge](https://img.shields.io/github/license/wase-ecs/wase-ecs)](https://github.com/Wase-ECS/wase-ecs/blob/main/LICENSE)
-[![Issues badge](https://img.shields.io/github/issues/Wase-ECS/wase-ecs)](https://github.com/Wase-ECS/wase-ecs/issues)
-![Lines badge](https://img.shields.io/tokei/lines/github/Wase-ECS/wase-ecs)
-![Stars badge](https://img.shields.io/github/stars/Wase-ECS/wase-ecs?style=social)
+[![Mit License badge](https://img.shields.io/github/license/wase-engine/wase-ecs)](https://github.com/Wase-Engine/wase-ecs/blob/main/LICENSE)
+[![Issues badge](https://img.shields.io/github/issues/Wase-Engine/wase-ecs)](https://github.com/Wase-ECS/wase-ecs/issues)
+![Lines badge](https://img.shields.io/tokei/lines/github/Wase-Engine/wase-ecs)
+![Stars badge](https://img.shields.io/github/stars/Wase-Engine/wase-ecs?style=social)
 
 Wase ECS is an open source ECS library made with C++17.
 

@@ -44,5 +44,3 @@ namespace wase::ecs
 		friend class World;
 	};
 }
-
-#include <entity.inl>

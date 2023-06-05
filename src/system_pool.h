@@ -21,8 +21,8 @@ namespace wase::ecs
 		 * @param componentMaps Component maps of the entities.
 		 * @param componentPool Component pool.
 		 */
-		template<typename T>
-		void registerSystem(std::vector<Entity*> entities, std::vector<ComponentMap> componentMaps, ComponentPool* componentPool);
+		template<typename T, typename... TArgs>
+		void registerSystem(std::vector<Entity*> entities, std::vector<ComponentMap> componentMaps, ComponentPool* componentPool, TArgs&&... args);
 
 		/**
 		 * Update all registered systems.

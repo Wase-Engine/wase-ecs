@@ -4,12 +4,12 @@
 
 namespace wase::ecs
 {
-	template<typename T>
-	void SystemPool::registerSystem(std::vector<Entity*> entities, std::vector<ComponentMap> componentMaps, ComponentPool* componentPool)
+	template<typename T, typename... TArgs>
+	void SystemPool::registerSystem(std::vector<Entity*> entities, std::vector<ComponentMap> componentMaps, ComponentPool* componentPool, TArgs&&... args)
 	{
 		const std::string name = typeid(T).name();
 
-		m_Systems.insert({ name, std::make_shared<T>() });
+		m_Systems.insert({ name, std::make_shared<T>(T(std::forward<TArgs>(args)...)) });
 
 		for (size_t i = 0; i < entities.size(); i++)
 		{

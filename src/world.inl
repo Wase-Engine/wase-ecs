@@ -4,8 +4,8 @@
 
 namespace wase::ecs
 {
-	template<typename T>
-	void World::registerSystem()
+	template<typename T, typename... TArgs>
+	void World::registerSystem(TArgs&&... args)
 	{
 		std::vector<Entity*> entities, entitiesPool;
 		std::vector<ComponentMap> componentMaps;
@@ -18,7 +18,7 @@ namespace wase::ecs
 			componentMaps.push_back(m_ComponentPool.getComponentMap(entitiesPool[i]->getId()));
 		}
 
-		m_SystemPool.registerSystem<T>(entities, componentMaps, &m_ComponentPool);
+		m_SystemPool.registerSystem<T>(entities, componentMaps, &m_ComponentPool, T(std::forward<TArgs>(args)...));
 	}
 
 	template<typename T>

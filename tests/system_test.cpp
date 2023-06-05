@@ -17,6 +17,11 @@ public:
 		getFilter().require<AudioComponent>();
 	}
 
+	void onEntityAdded(Entity* entity) override
+	{
+		m_ComponentPool->getComponent<AudioComponent>(entity->getId()).volume += 10;
+	}
+
 	void update(float deltaTime) override
 	{
 		for (auto& entity : m_EnabledEntities)
@@ -26,6 +31,19 @@ public:
 		}
 	}
 };
+
+TEST(SystemTest, Start)
+{
+	World world;
+	world.registerSystem<AudioSystem>();
+
+	Entity* entity = world.createEntity();
+	world.addComponent<AudioComponent>(entity->getId());
+
+	auto& audio = world.getComponent<AudioComponent>(entity->getId());
+
+	EXPECT_EQ(audio.volume, 10);
+}
 
 TEST(SystemTest, Update)
 {
@@ -39,7 +57,7 @@ TEST(SystemTest, Update)
 	
 	auto& audio = world.getComponent<AudioComponent>(entity->getId());
 	
-	EXPECT_EQ(audio.volume, 10);
+	EXPECT_EQ(audio.volume, 20);
 }
 
 TEST(SystemTest, EnableDisableEntity)
@@ -53,15 +71,15 @@ TEST(SystemTest, EnableDisableEntity)
 	world.update(0.0f);
 
 	auto& audio = world.getComponent<AudioComponent>(entity->getId());
-	EXPECT_EQ(audio.volume, 10);
+	EXPECT_EQ(audio.volume, 20);
 
 	world.disableEntity(entity->getId());
 	world.update(0.0f);
-	EXPECT_EQ(audio.volume, 10);
+	EXPECT_EQ(audio.volume, 20);
 
 	world.enableEntity(entity->getId());
 	world.update(0.0f);
-	EXPECT_EQ(audio.volume, 20);
+	EXPECT_EQ(audio.volume, 30);
 }
 
 TEST(SystemTest, EntityAdded)
@@ -81,6 +99,6 @@ TEST(SystemTest, EntityAdded)
 
 	auto& audio = world.getComponent<AudioComponent>(entity->getId());
 	auto& audio2 = world.getComponent<AudioComponent>(entity2->getId());
-	EXPECT_EQ(audio.volume, 20);
-	EXPECT_EQ(audio2.volume, 10);
+	EXPECT_EQ(audio.volume, 30);
+	EXPECT_EQ(audio2.volume, 20);
 }

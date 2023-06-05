@@ -24,6 +24,32 @@ namespace wase::ecs
 		virtual void update(const float deltaTime);
 
 		/**
+		 * An event that is called when an entity is added to the system.
+		 * 
+		 * @param entity The entity that was added.
+		 */
+		virtual void onEntityAdded(Entity* entity);
+
+		/**
+		 * An event that is called when an entity is removed from the system.
+		 */
+		virtual void onEntityRemoved();
+
+		/**
+		 * An event that is called when an entity is enabled
+		 * 
+		 * @param entity The entity that was enabled.
+		 */
+		virtual void onEntityEnabled(Entity* entity);
+
+		/**
+		 * An event that is called when an entity is disabled
+		 *
+		 * @param entity The entity that was disabled.
+		 */
+		virtual void onEntityDisabled(Entity* entity);
+
+		/**
 		 * Add an entity to the system.
 		 * 
 		 * @param entity Entity to add.

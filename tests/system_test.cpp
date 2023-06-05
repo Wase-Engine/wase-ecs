@@ -12,14 +12,15 @@ struct AudioComponent : Component
 class AudioSystem : public System
 {
 public:
-	AudioSystem()
+	AudioSystem(const int increment)
+		: m_Increment(increment)
 	{
 		getFilter().require<AudioComponent>();
 	}
 
 	void onEntityAdded(Entity* entity) override
 	{
-		m_ComponentPool->getComponent<AudioComponent>(entity->getId()).volume += 10;
+		m_ComponentPool->getComponent<AudioComponent>(entity->getId()).volume += m_Increment;
 	}
 
 	void update(float deltaTime) override
@@ -27,15 +28,50 @@ public:
 		for (auto& entity : m_EnabledEntities)
 		{
 			auto& audio = m_ComponentPool->getComponent<AudioComponent>(entity->getId());
-			audio.volume += 10;
+			audio.volume += m_Increment;
 		}
 	}
+
+private:
+	int m_Increment = 0;
 };
+
+class DoubleSystem : public System
+{
+public:
+	DoubleSystem(const int a, const int b)
+		: m_A(a), m_B(b)
+	{
+		getFilter().require<AudioComponent>();
+	}
+
+	void onEntityAdded(Entity* entity) override
+	{
+		m_ComponentPool->getComponent<AudioComponent>(entity->getId()).volume = m_A + m_B;
+	}
+
+private:
+	int m_A = 0;
+	int m_B = 0;
+};
+
+TEST(SystemTest, DoubleArguments)
+{
+	World world;
+	world.registerSystem<DoubleSystem>(10, 5);
+
+	Entity* entity = world.createEntity();
+	world.addComponent<AudioComponent>(entity->getId());
+
+	auto& audio = world.getComponent<AudioComponent>(entity->getId());
+
+	EXPECT_EQ(audio.volume, 15);
+}
 
 TEST(SystemTest, Start)
 {
 	World world;
-	world.registerSystem<AudioSystem>();
+	world.registerSystem<AudioSystem>(10);
 
 	Entity* entity = world.createEntity();
 	world.addComponent<AudioComponent>(entity->getId());
@@ -48,7 +84,7 @@ TEST(SystemTest, Start)
 TEST(SystemTest, Update)
 {
 	World world;
-	world.registerSystem<AudioSystem>();
+	world.registerSystem<AudioSystem>(10);
 
 	Entity* entity = world.createEntity();
 	world.addComponent<AudioComponent>(entity->getId());
@@ -63,7 +99,7 @@ TEST(SystemTest, Update)
 TEST(SystemTest, EnableDisableEntity)
 {
 	World world;
-	world.registerSystem<AudioSystem>();
+	world.registerSystem<AudioSystem>(10);
 
 	Entity* entity = world.createEntity();
 	world.addComponent<AudioComponent>(entity->getId());
@@ -85,7 +121,7 @@ TEST(SystemTest, EnableDisableEntity)
 TEST(SystemTest, EntityAdded)
 {
 	World world;
-	world.registerSystem<AudioSystem>();
+	world.registerSystem<AudioSystem>(10);
 
 	Entity* entity = world.createEntity();
 	world.addComponent<AudioComponent>(entity->getId());

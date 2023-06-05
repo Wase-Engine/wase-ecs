@@ -92,8 +92,8 @@ namespace wase::ecs
 		/**
 		 * Register a system with the system pool.
 		 */
-		template<typename T>
-		void registerSystem();
+		template<typename T, typename... TArgs>
+		void registerSystem(TArgs&&... args);
 
 		/**
 		 * Update all registered systems.

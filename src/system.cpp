@@ -8,6 +8,26 @@ namespace wase::ecs
 	{
 
 	}
+
+	void System::onEntityAdded(Entity* entity)
+	{
+
+	}
+
+	void System::onEntityRemoved()
+	{
+
+	}
+
+	void System::onEntityEnabled(Entity* entity)
+	{
+
+	}
+
+	void System::onEntityDisabled(Entity* entity)
+	{
+
+	}
 	
 	EntityFilter& System::getFilter()
 	{
@@ -20,6 +40,8 @@ namespace wase::ecs
 			m_EnabledEntities.push_back(entity);
 		else
 			m_DisabledEntities.push_back(entity);
+
+		onEntityAdded(entity);
 	}
 
 	void System::removeEntity(Entity* entity)
@@ -28,6 +50,7 @@ namespace wase::ecs
 			[entity](Entity* e) { return e == entity; });
 		
 		m_EnabledEntities.erase(newEnd, m_EnabledEntities.end());
+		onEntityRemoved();
 	}
 
 	void System::enableEntity(Entity* entity)
@@ -35,6 +58,7 @@ namespace wase::ecs
 		auto newEnd = std::remove(m_DisabledEntities.begin(), m_DisabledEntities.end(), entity);
 		m_DisabledEntities.erase(newEnd, m_DisabledEntities.end());
 		m_EnabledEntities.push_back(entity);
+		onEntityEnabled(entity);
 	}
 
 	void System::disableEntity(Entity* entity)
@@ -42,6 +66,7 @@ namespace wase::ecs
 		auto newEnd = std::remove(m_EnabledEntities.begin(), m_EnabledEntities.end(), entity);
 		m_EnabledEntities.erase(newEnd, m_EnabledEntities.end());
 		m_DisabledEntities.push_back(entity);
+		onEntityDisabled(entity);
 	}
 
 	void System::checkEntity(Entity* entity, const ComponentMap componentMap)

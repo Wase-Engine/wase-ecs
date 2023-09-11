@@ -24,7 +24,7 @@ To include Wase ECS to your project you can include the `ecs.h` file.
 ### Creating a World object
 First you need to set up a World object. The World handles everything for the ECS.
 ```c++
-wase:ecs::World world;
+wase::ecs::World world;
 ```
 
 You can update all the systems that are registered in the world with the update method.
